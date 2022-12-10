@@ -1,9 +1,36 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {faBed,faPlane,faCar,faTaxi,faPerson,faCalendarDays} from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import './Header.css';
+import { DateRange } from 'react-date-range';
+
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import {format} from "date-fns"
 
 const Header = () => {
+  const[opendate,setopendate]=useState(false)
+  const [date, setdate] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: 'selection'
+    }
+  ]);
+
+  const[openoptions,setopenoptions]=useState(false);
+  const[options,setoptions]=useState({
+    adult:1,
+    children:0,
+    room:1,
+  });
+
+  const handleoption =(name,operation)=>{
+    setoptions(prev =>{return {
+      ...prev,[name]:operation === "i" ? options[name] + 1 : options[name] -1,
+    }})
+  }
+
   return (
     <div className="header">
         <div className="headercontainer">
@@ -41,16 +68,65 @@ const Header = () => {
              placeholder="where are you going"
               className="headersearchinput"/>
               </div>
+
               
               <div className="headersearchitem">
-            <FontAwesomeIcon icon={faCalendarDays}/>
-            <span className="headersearchtext">Date to Date</span>
+            <FontAwesomeIcon icon={faCalendarDays}  className="headericon"/>
+            <span onClick={()=>setopendate(!opendate)} className="headersearchtext">{`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
               </div>
             
 
+              {opendate && <DateRange
+                   editableDateInputs={true}
+                   onChange={item => setdate([item.selection])}
+                   moveRangeOnFirstSelection={false}
+                   ranges={date}
+                   className="date"
+                 />}  
+
+
+
+
               <div className="headersearchitem">
             <FontAwesomeIcon icon={faPerson}/>
-            <span className="headersearchtext"> 2 Adults 2 Children 1 Room</span>
+            <span  onClick={()=>setopenoptions(!openoptions)} className="headersearchtext"> {`${options.adult} adult- ${options.children} children - ${options.room} room`}</span>
+            {openoptions && <div className="options" >
+              <div className="optionitem">
+                <span className="optiontext">Adult</span>
+                <div className="optioncounter">
+                 <button
+                  disabled={options.adult<=1}
+                 
+                 className="optioncounterbutton" onClick={()=>handleoption("adult" ,"d")}>-</button>
+                <span className="optioncounternumber">{options.adult}</span>
+                <button className="optioncounterbutton"  onClick={()=>handleoption("adult" ,"i")}>+</button>
+                </div>
+               
+              </div>
+
+              <div className="optionitem">
+                <span className="optiobtext">Children</span>
+              <div className="optioncounter">
+                <button 
+                 disabled={options.children <=0}
+                className="optioncounterbutton"  onClick={()=>handleoption("children","d")}>-</button>
+                <span className="optioncounternumber">{options.children}</span>
+                <button className="optioncounterbutton"  onClick={()=>handleoption("children","i")}>+</button>
+              </div>
+             </div>
+
+              <div className="optionitem">
+                <span className="optiobtext">Room</span>
+              <div className="optioncounter">
+                <button 
+                disabled={options.room <=1}
+                className="optioncounterbutton"  onClick={()=>handleoption("room","d")}>-</button>
+                <span className="optioncounternumber">{options.room}</span>
+                <button className="optioncounterbutton"  onClick={()=>handleoption("room","i")}>+</button>
+              </div>
+              </div>
+            </div>
+            }
            </div>
 
            <div className="headersearchitem">
