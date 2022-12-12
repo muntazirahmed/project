@@ -1,0 +1,42 @@
+.searchitem{
+    border: 1px solid lightgrey;
+    padding:10px;
+    border-radius:5px;
+    display : flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom:20px;
+}
+.siimg{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+.sidesc{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;flex:2;
+
+}
+.sidetails{
+    flex:1;
+
+}
+.sicancelop{
+    font-size:14px;
+    font-weight:bold;
+    color: rgb(136, 216, 16);
+}
+.sirating{
+    display: flex;
+    justify-content: space-between;
+}
+.sirating>span{
+    font-weight: 500;
+
+}
+.sirating>button{
+    background-color:#003580;
+    color:white;
+    border:none;
+}

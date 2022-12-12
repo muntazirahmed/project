@@ -12,7 +12,7 @@
 }
 .featureditem{
     position: relative;
-    color: aquamarine;
+    color: white;
     border-radius:10px;
     overflow: hidden;
     height: 250px;
@@ -20,4 +20,10 @@
 .featuredtitles{
     position: absolute;
     bottom:20px;
+}
+
+.featuredimg{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
